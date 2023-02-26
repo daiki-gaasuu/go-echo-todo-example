@@ -50,6 +50,6 @@
 
 1. 上記の OpenAPI の生成
 2. `cd server`
-3. `go run main.go`
+3. `go run cmd/main.go`
 4. client ルートにて`yarn`
 5. yarn run dev
