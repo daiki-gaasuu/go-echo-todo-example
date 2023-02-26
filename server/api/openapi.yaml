@@ -1,0 +1,276 @@
+openapi: 3.0.3
+servers:
+  - url: '{protocol}://localhost:3000/api/v1'
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+    description: ローカルサーバー
+info:
+  version: 0.0.1
+  title: Todo API
+tags:
+  - name: users
+  - name: sessions
+  - name: todos
+paths:
+  # /users:
+  #   post:
+  #     operationId: postUser
+  #     tags:
+  #       - users
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/NewUser"
+  #     responses:
+  #       "200":
+  #         description: OK
+  #       default:
+  #         description: デフォルトのエラーレスポンス
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/DefaultErrorResponse"
+  #   patch:
+  #     operationId: updateUser
+  #     tags:
+  #       - users
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/UpdateUser"
+  #     responses:
+  #       "200":
+  #         description: OK
+  #       default:
+  #         description: デフォルトのエラーレスポンス
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/DefaultErrorResponse"
+  # /users/{userId}:
+  #   get:
+  #     operationId: getUserById
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: integer
+  #     tags:
+  #       - users
+  #     responses:
+  #       "200":
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/User"
+  #       default:
+  #         description: デフォルトのエラーレスポンス
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/DefaultErrorResponse"
+  #   delete:
+  #     operationId: deleteUser
+  #     tags:
+  #       - users
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: integer
+  #     responses:
+  #       '204':
+  #         description: 204 response
+  #       default:
+  #         description: デフォルトのエラーレスポンス
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/DefaultErrorResponse"
+
+  /todos:
+    get:
+      operationId: getTodos
+      tags:
+        - todos
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Todo"
+        default:
+          description: デフォルトのエラーレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponse"
+    post:
+      operationId: postTodo
+      tags:
+        - todos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTodo"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Todo"
+        default:
+          description: デフォルトのエラーレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponse"
+    patch:
+      operationId: updateTodo
+      tags:
+        - todos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTodo"
+      responses:
+        "200":
+          description: OK
+        default:
+          description: デフォルトのエラーレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponse"
+  /todos/{todoId}:
+    get:
+      operationId: getTodoById
+      parameters:
+        - name: todoId
+          in: path
+          required: true
+          schema:
+            type: integer
+      tags:
+        - todos
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        default:
+          description: デフォルトのエラーレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponse"
+    delete:
+      operationId: deleteTodo
+      tags:
+        - todos
+      parameters:
+        - name: todoId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: 204 response
+        default:
+          description: デフォルトのエラーレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponse"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        createAt:
+          type: string
+          format: date-time
+    NewUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        userId:
+          type: string
+        createAt:
+          type: string
+          format: date-time
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        # userId:
+        #   type: string
+        createAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    NewTodo:
+      type: object
+      properties:
+        content:
+          type: string
+
+    DefaultErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
