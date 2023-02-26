@@ -109,7 +109,8 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: "#/components/schemas/Todo"
+                items:
+                  $ref: "#/components/schemas/Todo"
         default:
           description: デフォルトのエラーレスポンス
           content:
@@ -250,6 +251,8 @@ components:
           format: date-time
     Todo:
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
@@ -266,6 +269,17 @@ components:
     NewTodo:
       type: object
       properties:
+        content:
+          type: string
+    
+    UpdateTodo:
+      type: object
+      required:
+        - id
+        - content
+      properties:
+        id:
+          type: integer
         content:
           type: string
 
